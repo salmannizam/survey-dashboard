@@ -197,16 +197,7 @@ const SurveyFilters: React.FC<SurveyFiltersProps> = ({ onFilter, resultCount }) 
             </Box>
           </Box>
           
-          {resultCount !== undefined && (
-            <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-              <Chip 
-                label={`${resultCount} records found`}
-                color="info"
-                variant="outlined"
-                sx={{ fontWeight: 'bold' }}
-              />
-            </Box>
-          )}
+          
         </CardContent>
       </Card>
     </LocalizationProvider>

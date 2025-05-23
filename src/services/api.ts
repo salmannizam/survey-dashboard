@@ -2,7 +2,7 @@
 // src/services/api.ts
 import axios from 'axios';
 
-const API_BASE_URL = 'http://192.168.1.3:3000'; // Your NestJS server URL
+const API_BASE_URL = 'http://192.168.1.3:3001'; // Your NestJS server URL
 
 // Create axios instance
 const api = axios.create({
@@ -36,6 +36,23 @@ export const getSurveyData = async (params: any) => {
     console.error('Error fetching survey data:', error);
     throw error;
   }
+};
+
+// api.ts (or wherever your API calls live)
+export const downloadSingleImage = async (projectId: string, file: string) => {
+  return await api.post(
+    '/survey/download-single-image',
+    { projectId, file },
+    { responseType: 'blob' }
+  );
+};
+
+export const downloadImagesZip = async (projectId: string, files: string[]) => {
+  return await api.post(
+    '/survey/download-zip-image',
+    { projectId, files },
+    { responseType: 'blob' }
+  );
 };
 
 // Username: admin
