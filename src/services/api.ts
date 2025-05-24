@@ -2,7 +2,7 @@
 // src/services/api.ts
 import axios from 'axios';
 
-const API_BASE_URL = 'http://192.168.1.3:3002'; // Your NestJS server URL
+const API_BASE_URL = 'http://192.168.1.189:3002'; // Your NestJS server URL
 
 // Create axios instance
 const api = axios.create({
@@ -11,9 +11,9 @@ const api = axios.create({
 
 // Add request interceptor to include token
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token'); // ✅
+  const token = localStorage.getItem('token'); 
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`; // ✅ attaches token to every request
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
@@ -66,7 +66,3 @@ export const downloadImagesZip = async (projectId: string, files: string[]) => {
     { responseType: 'blob' }
   );
 };
-
-// Username: admin
-
-// Password: dabur2025@123

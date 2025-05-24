@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [authInitialized, setAuthInitialized] = useState(false); // ✅
+  const [authInitialized, setAuthInitialized] = useState(false); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (token) {
       setIsAuthenticated(true);
     }
-    setAuthInitialized(true); // ✅ mark auth check as done
+    setAuthInitialized(true); 
   }, []);
 
 
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         logout: handleLogout,
         loading,
         error,
-        authInitialized, // ✅
+        authInitialized, 
       }}
     >
       {children}

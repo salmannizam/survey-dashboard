@@ -107,17 +107,19 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
     }
   };
 
-  const convertYYYYMMDDToDate = (dateStr: string) => {
-    if (!dateStr || dateStr.length !== 8) return 'Invalid Date';
+const convertDayOfYearToDate = (dateStr: string) => {
+  if (!dateStr || dateStr.length < 7) return 'Invalid Date';
 
-    const year = dateStr.substring(0, 4);
-    const month = dateStr.substring(4, 6);
-    const day = dateStr.substring(6, 8);
+  const year = parseInt(dateStr.substring(0, 4), 10);
+  const dayOfYear = parseInt(dateStr.substring(4), 10);
 
-    // Format as YYYY-MM-DD or anything else
-    return `${year}-${month}-${day}`;
-  };
+  if (isNaN(year) || isNaN(dayOfYear)) return 'Invalid Date';
 
+  const date = new Date(year, 0); // Jan 1
+  date.setDate(dayOfYear);
+
+  return date.toISOString().split('T')[0]; // YYYY-MM-DD
+};
 
   // Avoid a layout jump when reaching the last page with empty rows
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -306,10 +308,10 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                     {row['Batch No.']}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                    {convertYYYYMMDDToDate(row['MFG Date'])}
+                    {convertDayOfYearToDate(row['MFG Date'])}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                    {convertYYYYMMDDToDate(row['Exp. Date'])}
+                    {convertDayOfYearToDate(row['Exp. Date'])}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
                     <Chip
