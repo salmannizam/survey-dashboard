@@ -170,10 +170,10 @@ const SurveyFilters: React.FC<SurveyFiltersProps> = ({ onFilter, resultCount }) 
             />
             
             <Box sx={{ 
-              gridColumn: { xs: '1 / -1', md: 'span 2' },
-              display: 'flex',
-              gap: 2,
-              alignItems: 'center'
+               gridColumn: { xs: '1 / -1', md: 'span 4' },
+               display: 'flex',
+               gap: 2,
+               alignItems: 'center'
             }}>
               <Button 
                 type="submit" 

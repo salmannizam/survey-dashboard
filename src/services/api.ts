@@ -18,6 +18,18 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => response, // pass through successful responses
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login'; // or your login route
+    }
+    return Promise.reject(error);
+  }
+);
+
+
 export const login = async (username: string, password: string) => {
   try {
     const response = await api.post('/auth/login', { username, password });

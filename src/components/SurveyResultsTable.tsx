@@ -22,6 +22,7 @@ import { downloadImagesZip, downloadSingleImage } from '../services/api';
 
 interface SurveyResult {
   ResultID: string;
+  subresultid:string;
   'Outlet Name': string;
   Zone: string;
   StartDate: string;
@@ -77,9 +78,9 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
     );
   }
 
-  const handleDownloadImages = async (projectId: string, ResultID: string, images: string[]) => {
+  const handleDownloadImages = async (projectId: string, subresultid: string, images: string[]) => {
     try {
-      setImageloadingId(ResultID);
+      setImageloadingId(subresultid);
       let response;
 
       if (images.length === 1) {
@@ -93,8 +94,8 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
       const a = document.createElement('a');
       a.href = url;
       a.download = images.length === 1 
-        ? images[0].split('/').pop() || `${ResultID}.jpg`
-        : `${ResultID}.zip`;
+        ? images[0].split('/').pop() || `${subresultid}.jpg`
+        : `${subresultid}.zip`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -263,7 +264,7 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                 : data
               ).map((row) => (
                 <TableRow
-                  key={row.ResultID}
+                  key={row.subresultid}
                   hover
                   sx={{ 
                     '&:last-child td': { borderBottom: 0 },
@@ -324,11 +325,11 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                         <Tooltip title="Download Images" arrow>
                           <IconButton
                             size="small"
-                            disabled={imageloadingId === row.ResultID}
+                            disabled={imageloadingId === row.subresultid}
                             onClick={() => {
                               handleDownloadImages(
-                                row.ResultID,
-                                row.ResultID,
+                                row.subresultid,
+                                row.subresultid,
                                 row.Defect_image.split(',')
                               );
                             }}
@@ -339,7 +340,7 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                               }
                             }}
                           >
-                            {imageloadingId === row.ResultID ? (
+                            {imageloadingId === row.subresultid ? (
                               <Box width={24} height={24} display="flex" alignItems="center" justifyContent="center">
                                 <CircularProgress size={16} />
                               </Box>
