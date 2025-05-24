@@ -22,7 +22,7 @@ import { downloadImagesZip, downloadSingleImage } from '../services/api';
 
 interface SurveyResult {
   ResultID: string;
-  subresultid:string;
+  subresultid: string;
   'Outlet Name': string;
   Zone: string;
   StartDate: string;
@@ -64,9 +64,9 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
 
   if (data.length === 0) {
     return (
-      <Paper elevation={3} sx={{ 
-        p: 4, 
-        mt: 2, 
+      <Paper elevation={3} sx={{
+        p: 4,
+        mt: 2,
         textAlign: 'center',
         borderRadius: theme.shape.borderRadius,
         backgroundColor: theme.palette.background.paper
@@ -93,7 +93,7 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = images.length === 1 
+      a.download = images.length === 1
         ? images[0].split('/').pop() || `${subresultid}.jpg`
         : `${subresultid}.zip`;
       document.body.appendChild(a);
@@ -107,15 +107,27 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
     }
   };
 
+  const convertYYYYMMDDToDate = (dateStr: string) => {
+    if (!dateStr || dateStr.length !== 8) return 'Invalid Date';
+
+    const year = dateStr.substring(0, 4);
+    const month = dateStr.substring(4, 6);
+    const day = dateStr.substring(6, 8);
+
+    // Format as YYYY-MM-DD or anything else
+    return `${year}-${month}-${day}`;
+  };
+
+
   // Avoid a layout jump when reaching the last page with empty rows
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   return (
     <Box sx={{ mt: 3 }}>
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         mb: 3,
         flexWrap: 'wrap',
         gap: 2
@@ -127,7 +139,7 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
           label={`${data.length} records`}
           color="primary"
           variant="outlined"
-          sx={{ 
+          sx={{
             fontWeight: 'bold',
             borderRadius: '8px',
             borderWidth: '2px',
@@ -136,34 +148,34 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
         />
       </Box>
 
-      <Paper elevation={0} sx={{ 
+      <Paper elevation={0} sx={{
         borderRadius: theme.shape.borderRadius,
         border: `1px solid ${theme.palette.divider}`,
         overflow: 'hidden'
       }}>
         <TableContainer>
           <Table sx={{ minWidth: 1200 }}>
-            <TableHead sx={{ 
-              backgroundColor: theme.palette.mode === 'light' 
-                ? theme.palette.grey[50] 
+            <TableHead sx={{
+              backgroundColor: theme.palette.mode === 'light'
+                ? theme.palette.grey[50]
                 : theme.palette.grey[800]
             }}>
               <TableRow>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Outlet Name
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Zone
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
@@ -171,84 +183,84 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                   <Box display="flex" alignItems="center">
                     Survey Date
                     <Tooltip title="Date when survey was conducted" arrow>
-                      <InfoIcon fontSize="small" sx={{ 
-                        ml: 0.5, 
-                        color: theme.palette.text.secondary 
+                      <InfoIcon fontSize="small" sx={{
+                        ml: 0.5,
+                        color: theme.palette.text.secondary
                       }} />
                     </Tooltip>
                   </Box>
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Brand
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   SKU
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Batch No.
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   MFG Date
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Exp. Date
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Visual Defects
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Defect Type
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Images
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   State
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Location
                 </TableCell>
-                <TableCell sx={{ 
+                <TableCell sx={{
                   fontWeight: 600,
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
@@ -257,7 +269,7 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                 </TableCell>
               </TableRow>
             </TableHead>
-            
+
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -266,7 +278,7 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                 <TableRow
                   key={row.subresultid}
                   hover
-                  sx={{ 
+                  sx={{
                     '&:last-child td': { borderBottom: 0 },
                     '&:hover': {
                       backgroundColor: theme.palette.action.hover
@@ -294,17 +306,17 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                     {row['Batch No.']}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                    {row['MFG Date']}
+                    {convertYYYYMMDDToDate(row['MFG Date'])}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                    {row['Exp. Date']}
+                    {convertYYYYMMDDToDate(row['Exp. Date'])}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
                     <Chip
                       label={row.VisualDefects}
                       color={row.VisualDefects === 'Yes' ? 'error' : 'success'}
                       size="small"
-                      sx={{ 
+                      sx={{
                         borderRadius: '4px',
                         fontWeight: 500,
                         minWidth: '70px'
@@ -367,7 +379,7 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                   </TableCell>
                 </TableRow>
               ))}
-              
+
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={14} />
