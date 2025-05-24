@@ -2,7 +2,7 @@
 // src/services/api.ts
 import axios from 'axios';
 
-const API_BASE_URL = 'http://192.168.1.189:3002'; // Your NestJS server URL
+const API_BASE_URL = 'https://surveyciplapi-gefsbkc0dpgkgzdr.centralus-01.azurewebsites.net'; // Your NestJS server URL
 
 // Create axios instance
 const api = axios.create({
