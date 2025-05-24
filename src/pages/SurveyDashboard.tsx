@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SurveyFilters from '../components/SurveyFilters';
 import SurveyResultsTable from '../components/SurveyResultsTable';
 import { getSurveyData } from '../services/api';
 import { 
-  Box, Typography, CircularProgress, Button, Container,
+  Box, Typography, CircularProgress, Container,
   CssBaseline, Toolbar, AppBar, IconButton, Tooltip
 } from '@mui/material';
 import { useAuth } from '../context/AuthContext';

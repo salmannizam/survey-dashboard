@@ -12,7 +12,6 @@ import {
   Box,
   Tooltip,
   IconButton,
-  LinearProgress,
   TablePagination,
   useTheme,
   CircularProgress
