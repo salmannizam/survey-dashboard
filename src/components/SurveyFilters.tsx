@@ -50,8 +50,8 @@ const SurveyFilters: React.FC<SurveyFiltersProps> = ({ onFilter, resultCount }) 
     }
     onFilter({
       OutletNameInput: filters.outletName,
-      FromDate: filters.fromDate?.toISOString().split('T')[0] || '',
-      ToDate: filters.toDate?.toISOString().split('T')[0] || '',
+      FromDate: filters.fromDate ? formatDateToMMDDYYYY(filters.fromDate) : '',
+      ToDate: filters.toDate ? formatDateToMMDDYYYY(filters.toDate) : '',      
       Brand: filters.brand,
       Location: filters.location,
       State: filters.state,
@@ -77,6 +77,14 @@ const SurveyFilters: React.FC<SurveyFiltersProps> = ({ onFilter, resultCount }) 
     });
     onFilter({}); // Send empty filters to reset
   };
+
+  const formatDateToMMDDYYYY = (date: Date) => {
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    const yyyy = date.getFullYear();
+    return `${mm}${dd}${yyyy}`;
+  };
+  
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

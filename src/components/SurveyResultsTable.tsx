@@ -106,19 +106,19 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
     }
   };
 
-const convertDayOfYearToDate = (dateStr: string) => {
-  if (!dateStr || dateStr.length < 7) return 'Invalid Date';
+  const convertDayOfYearToDate = (dateStr: string) => {
+    if (!dateStr || dateStr.length < 7) return 'Invalid Date';
 
-  const year = parseInt(dateStr.substring(0, 4), 10);
-  const dayOfYear = parseInt(dateStr.substring(4), 10);
+    const year = parseInt(dateStr.substring(0, 4), 10);
+    const dayOfYear = parseInt(dateStr.substring(4), 10);
 
-  if (isNaN(year) || isNaN(dayOfYear)) return 'Invalid Date';
+    if (isNaN(year) || isNaN(dayOfYear)) return 'Invalid Date';
 
-  const date = new Date(year, 0); // Jan 1
-  date.setDate(dayOfYear);
+    const date = new Date(year, 0); // Jan 1
+    date.setDate(dayOfYear);
 
-  return date.toISOString().split('T')[0]; // YYYY-MM-DD
-};
+    return date.toISOString().split('T')[0]; // YYYY-MM-DD
+  };
 
   // Avoid a layout jump when reaching the last page with empty rows
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -217,6 +217,20 @@ const convertDayOfYearToDate = (dateStr: string) => {
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
+                  Sample Checked
+                </TableCell>
+                <TableCell sx={{
+                  fontWeight: 600,
+                  color: theme.palette.text.primary,
+                  borderBottom: `1px solid ${theme.palette.divider}`
+                }}>
+                  Freshness
+                </TableCell>
+                <TableCell sx={{
+                  fontWeight: 600,
+                  color: theme.palette.text.primary,
+                  borderBottom: `1px solid ${theme.palette.divider}`
+                }}>
                   MFG Date
                 </TableCell>
                 <TableCell sx={{
@@ -232,6 +246,13 @@ const convertDayOfYearToDate = (dateStr: string) => {
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
                   Visual Defects
+                </TableCell>
+                <TableCell sx={{
+                  fontWeight: 600,
+                  color: theme.palette.text.primary,
+                  borderBottom: `1px solid ${theme.palette.divider}`
+                }}>
+                  No of Defects
                 </TableCell>
                 <TableCell sx={{
                   fontWeight: 600,
@@ -301,10 +322,16 @@ const convertDayOfYearToDate = (dateStr: string) => {
                     {row.Brand}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                    {row.SKU}
+                    {row.SKU} {row.Unit}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                    {row['Batch No.']}
+                    {row['Batch No.']}{row['Batch No1.']}
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
+                    {row['Sample Checked']}
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
+                    {row.no_of_defect}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
                     {convertDayOfYearToDate(row['MFG Date'])}
@@ -323,6 +350,9 @@ const convertDayOfYearToDate = (dateStr: string) => {
                         minWidth: '70px'
                       }}
                     />
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
+                    {row.no_of_defect}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
                     <Typography variant="body2" noWrap>
