@@ -40,6 +40,7 @@ interface SurveyResult {
   Defect_image: string;
   no_of_defect: string;
   defect_type: string;
+  Remarks:string;
 }
 
 interface SurveyResultsTableProps {
@@ -119,6 +120,26 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
 
     return date.toISOString().split('T')[0]; // YYYY-MM-DD
   };
+
+
+  const getFreshnessDays = (mfgDateStr: string) => {
+    const mfgDateParsed = convertDayOfYearToDate(mfgDateStr);
+    if (mfgDateParsed === 'Invalid Date') return 'Invalid';
+
+    const mfgDate = new Date(mfgDateParsed);
+    const today = new Date();
+
+    // Remove time part
+    mfgDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const diffTime = today.getTime() - mfgDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays < 0 ? 0 : diffDays;
+  };
+  
+    
 
   // Avoid a layout jump when reaching the last page with empty rows
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -266,6 +287,13 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                   color: theme.palette.text.primary,
                   borderBottom: `1px solid ${theme.palette.divider}`
                 }}>
+                  Remarks
+                </TableCell>
+                <TableCell sx={{
+                  fontWeight: 600,
+                  color: theme.palette.text.primary,
+                  borderBottom: `1px solid ${theme.palette.divider}`
+                }}>
                   Images
                 </TableCell>
                 <TableCell sx={{
@@ -331,7 +359,7 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                     {row['Sample Checked']}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                    {row.no_of_defect}
+                  {getFreshnessDays(row['MFG Date'])} days
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
                     {convertDayOfYearToDate(row['MFG Date'])}
@@ -356,7 +384,12 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
                     <Typography variant="body2" noWrap>
-                      {row.defect_type}
+                      {row?.defect_type ?row?.defect_type: '--'}
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
+                    <Typography variant="body2" noWrap>
+                      {row?.Remarks ? row?.Remarks : '--'}
                     </Typography>
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>

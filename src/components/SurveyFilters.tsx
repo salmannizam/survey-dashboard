@@ -50,8 +50,8 @@ const SurveyFilters: React.FC<SurveyFiltersProps> = ({ onFilter, resultCount }) 
     }
     onFilter({
       OutletNameInput: filters.outletName,
-      FromDate: filters.fromDate ? formatDateToMMDDYYYY(filters.fromDate) : '',
-      ToDate: filters.toDate ? formatDateToMMDDYYYY(filters.toDate) : '',      
+      FromDate: filters.fromDate?.toISOString().split('T')[0] || '',
+      ToDate: filters.toDate?.toISOString().split('T')[0] || '',   
       Brand: filters.brand,
       Location: filters.location,
       State: filters.state,
