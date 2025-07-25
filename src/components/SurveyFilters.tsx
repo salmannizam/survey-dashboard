@@ -24,10 +24,15 @@ interface Filters {
 }
 
 const SurveyFilters: React.FC<SurveyFiltersProps> = ({ onFilter, resultCount }) => {
+
+  const today = new Date();
+const yesterday = new Date();
+yesterday.setDate(today.getDate() - 1);
+  
   const [filters, setFilters] = useState<Filters>({
     outletName: '',
-    fromDate: null,
-    toDate: null,
+  fromDate: yesterday,
+  toDate: today,
     brand: '',
     location: '',
     state: '',
@@ -64,19 +69,36 @@ const SurveyFilters: React.FC<SurveyFiltersProps> = ({ onFilter, resultCount }) 
     handleSubmit()
   },[])
 
-  const handleReset = () => {
-    setFilters({
-      outletName: '',
-      fromDate: null,
-      toDate: null,
-      brand: '',
-      location: '',
-      state: '',
-      defectType: '',
-      batchNumber: ''
-    });
-    onFilter({}); // Send empty filters to reset
+const handleReset = () => {
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+
+  const resetFilters = {
+    outletName: '',
+    fromDate: yesterday,
+    toDate: today,
+    brand: '',
+    location: '',
+    state: '',
+    defectType: '',
+    batchNumber: ''
   };
+
+  setFilters(resetFilters);
+
+  onFilter({
+    OutletNameInput: '',
+    FromDate: resetFilters.fromDate.toISOString().split('T')[0],
+    ToDate: resetFilters.toDate.toISOString().split('T')[0],
+    Brand: '',
+    Location: '',
+    State: '',
+    defect_type: '',
+    BatchNumber: ''
+  });
+};
+
 
   const formatDateToMMDDYYYY = (date: Date) => {
     const mm = String(date.getMonth() + 1).padStart(2, '0');
