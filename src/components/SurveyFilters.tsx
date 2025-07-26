@@ -8,7 +8,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { Clear as ClearIcon } from '@mui/icons-material';
 
 interface SurveyFiltersProps {
-  onFilter: (filters: any) => void;
+  onFilter: (convertedFilters: any, rawFilters: Filters) => void;
   resultCount?: number;
 }
 
@@ -50,55 +50,54 @@ yesterday.setDate(today.getDate() - 1);
   };
 
   const handleSubmit = (e?: React.FormEvent) => {
-    if( e ){
-      e.preventDefault() 
-    }
-    onFilter({
+    if (e) e.preventDefault();
+    const convertedFilters = {
       OutletNameInput: filters.outletName,
       FromDate: filters.fromDate?.toISOString().split('T')[0] || '',
-      ToDate: filters.toDate?.toISOString().split('T')[0] || '',   
+      ToDate: filters.toDate?.toISOString().split('T')[0] || '',
       Brand: filters.brand,
       Location: filters.location,
       State: filters.state,
       defect_type: filters.defectType,
-      BatchNumber: filters.batchNumber
-    });
+      BatchNumber: filters.batchNumber,
+    };
+    onFilter(convertedFilters, filters);  // Pass both!
   };
 
   useEffect(()=>{
     handleSubmit()
   },[])
 
-const handleReset = () => {
-  const today = new Date();
-  const yesterday = new Date();
-  yesterday.setDate(today.getDate() - 1);
-
-  const resetFilters = {
-    outletName: '',
-    fromDate: yesterday,
-    toDate: today,
-    brand: '',
-    location: '',
-    state: '',
-    defectType: '',
-    batchNumber: ''
+  const handleReset = () => {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+  
+    const resetFilters = {
+      outletName: '',
+      fromDate: yesterday,
+      toDate: today,
+      brand: '',
+      location: '',
+      state: '',
+      defectType: '',
+      batchNumber: ''
+    };
+  
+    setFilters(resetFilters);
+  
+    onFilter({
+      OutletNameInput: '',
+      FromDate: resetFilters.fromDate.toISOString().split('T')[0],
+      ToDate: resetFilters.toDate.toISOString().split('T')[0],
+      Brand: '',
+      Location: '',
+      State: '',
+      defect_type: '',
+      BatchNumber: ''
+    }, resetFilters); // Pass both!
   };
-
-  setFilters(resetFilters);
-
-  onFilter({
-    OutletNameInput: '',
-    FromDate: resetFilters.fromDate.toISOString().split('T')[0],
-    ToDate: resetFilters.toDate.toISOString().split('T')[0],
-    Brand: '',
-    Location: '',
-    State: '',
-    defect_type: '',
-    BatchNumber: ''
-  });
-};
-
+  
 
   const formatDateToMMDDYYYY = (date: Date) => {
     const mm = String(date.getMonth() + 1).padStart(2, '0');

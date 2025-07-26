@@ -66,3 +66,15 @@ export const downloadImagesZip = async (projectId: string, files: string[]) => {
     { responseType: 'blob' }
   );
 };
+
+
+// Add this to your existing exports in api.ts
+
+export const exportSurveyExcel = async (fromDate: string, toDate: string, extraFilters = {}) => {
+  // Merge filters if you need more params
+  return await api.post(
+    '/survey/export-excel',
+    { fromDate, toDate, ...extraFilters }, // backend expects these keys
+    { responseType: 'blob' } // important for file download!
+  );
+};
