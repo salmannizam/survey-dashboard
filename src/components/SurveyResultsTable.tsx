@@ -117,11 +117,11 @@ const convertDayOfYearToDate = (dateStr: string) => {
   const date = new Date(Date.UTC(year, 0, 1));
   date.setUTCDate(dayOfYear);
 
-  // ✅ Apply IST offset
-  const istDate = new Date(date.getTime() + 5.5 * 60 * 60 * 1000);
+  // ✅ Add 5.5 hours offset for IST
+  const istOffsetDate = new Date(date.getTime() + (5.5 * 60 * 60 * 1000));
 
-  // ✅ Return string in YYYY-MM-DD (IST)
-  return istDate.toISOString().split('T')[0];
+  // ✅ Format to YYYY-MM-DD in IST
+  return istOffsetDate.toISOString().split('T')[0];
 };
 
 
