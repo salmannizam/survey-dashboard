@@ -120,23 +120,22 @@ const convertDayOfYearToDate = (dateStr: string) => {
 };
 
 
-  const getFreshnessDays = (mfgDateStr: string) => {
-    const mfgDateParsed = convertDayOfYearToDate(mfgDateStr);
-    if (mfgDateParsed === 'Invalid Date') return 'Invalid';
+const getFreshnessDays = (mfgDateStr: string) => {
+  const mfgDateParsed = convertDayOfYearToDate(mfgDateStr);
+  if (mfgDateParsed === 'Invalid Date') return 'Invalid';
 
-    const mfgDate = new Date(mfgDateParsed);
-    const today = new Date();
+  const mfgDate = new Date(mfgDateParsed);
+  const today = new Date();
 
-    // Remove time part
-    mfgDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
+  mfgDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
 
-    const diffTime = today.getTime() - mfgDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const diffTime = today.getTime() - mfgDate.getTime();
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)); // Use round
 
-    return diffDays < 0 ? 0 : diffDays;
-  };
-  
+  return diffDays < 0 ? 0 : diffDays;
+};
+
     
 
   // Avoid a layout jump when reaching the last page with empty rows
