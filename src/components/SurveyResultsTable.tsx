@@ -114,9 +114,14 @@ const convertDayOfYearToDate = (dateStr: string) => {
   const dayOfYear = parseInt(dateStr.substring(4), 10);
   if (isNaN(year) || isNaN(dayOfYear)) return 'Invalid Date';
 
-  const jan1 = new Date(Date.UTC(year, 0, 1));
-  jan1.setUTCDate(dayOfYear);
-  return jan1.toISOString().split('T')[0]; // YYYY-MM-DD in UTC
+  const date = new Date(Date.UTC(year, 0, 1));
+  date.setUTCDate(dayOfYear);
+
+  // ✅ Apply IST offset
+  const istDate = new Date(date.getTime() + 5.5 * 60 * 60 * 1000);
+
+  // ✅ Return string in YYYY-MM-DD (IST)
+  return istDate.toISOString().split('T')[0];
 };
 
 
