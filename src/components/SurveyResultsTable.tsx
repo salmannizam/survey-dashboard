@@ -107,19 +107,17 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
     }
   };
 
-  const convertDayOfYearToDate = (dateStr: string) => {
-    if (!dateStr || dateStr.length < 7) return 'Invalid Date';
+const convertDayOfYearToDate = (dateStr: string) => {
+  if (!dateStr || dateStr.length < 7) return 'Invalid Date';
 
-    const year = parseInt(dateStr.substring(0, 4), 10);
-    const dayOfYear = parseInt(dateStr.substring(4), 10);
+  const year = parseInt(dateStr.substring(0, 4), 10);
+  const dayOfYear = parseInt(dateStr.substring(4), 10);
+  if (isNaN(year) || isNaN(dayOfYear)) return 'Invalid Date';
 
-    if (isNaN(year) || isNaN(dayOfYear)) return 'Invalid Date';
-
-    const date = new Date(year, 0); // Jan 1
-    date.setDate(dayOfYear);
-
-    return date.toISOString().split('T')[0]; // YYYY-MM-DD
-  };
+  const jan1 = new Date(Date.UTC(year, 0, 1));
+  jan1.setUTCDate(dayOfYear);
+  return jan1.toISOString().split('T')[0]; // YYYY-MM-DD in UTC
+};
 
 
   const getFreshnessDays = (mfgDateStr: string) => {
