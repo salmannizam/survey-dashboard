@@ -162,7 +162,7 @@ const SurveyDashboard: React.FC = () => {
         <AppBar position="static" elevation={0} color="default">
           <Toolbar sx={{ justifyContent: 'space-between' }}>
             <Typography variant="h6" component="div" sx={{ fontWeight: 700 }}>
-              Survey Analytics Dashboard
+              Survey Analytics Dashboard.
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
 
