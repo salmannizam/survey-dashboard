@@ -34,8 +34,8 @@ interface SurveyResult {
   'Sample Checked': string;
   'Batch No.': string;
   'Batch No1.': string;
-  'MFG Date': string;
-  'Exp. Date': string;
+  'MfgDate': string;
+  'ExpDate': string;
   VisualDefects: string;
   Defect_image: string;
   no_of_defect: string;
@@ -107,27 +107,26 @@ const SurveyResultsTable: React.FC<SurveyResultsTableProps> = ({ data }) => {
     }
   };
 
-const convertDayOfYearToDate = (dateStr: string) => {
-  if (!dateStr || dateStr.length < 7) return 'Invalid Date';
-
-  const year = parseInt(dateStr.substring(0, 4), 10);
-  const dayOfYear = parseInt(dateStr.substring(4), 10);
-  if (isNaN(year) || isNaN(dayOfYear)) return 'Invalid Date';
-
-  const date = new Date(Date.UTC(year, 0, 1));
-  date.setUTCDate(dayOfYear);
-
-  // ✅ Add 5.5 hour offset manually for IST
-  const istDate = new Date(date.getTime() + 5.5 * 60 * 60 * 1000);
-  return istDate.toISOString().split('T')[0];
-};
-
+  const convertDayOfYearToDate = (dateStr: string) => {
+    if (!dateStr || dateStr.length < 7) return 'Invalid Date';
+  
+    const year = parseInt(dateStr.substring(0, 4), 10);
+    const dayOfYear = parseInt(dateStr.substring(4), 10);
+    if (isNaN(year) || isNaN(dayOfYear)) return 'Invalid Date';
+  
+    // Local IST version — no UTC, no offset
+    const date = new Date(year, 0, 1);
+    date.setDate(dayOfYear);
+  
+    return date.toISOString().split('T')[0]; // Will still output UTC ISO string
+  };
+  
 
 const getFreshnessDays = (mfgDateStr: string) => {
   const mfgDateParsed = convertDayOfYearToDate(mfgDateStr);
   if (mfgDateParsed === 'Invalid Date') return 'Invalid';
 
-  const mfgDate = new Date(mfgDateParsed);
+  const mfgDate = new Date(mfgDateStr);
   const today = new Date();
 
   mfgDate.setHours(0, 0, 0, 0);
@@ -359,13 +358,13 @@ const getFreshnessDays = (mfgDateStr: string) => {
                     {row['Sample Checked']}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                  {getFreshnessDays(row['MFG Date'])} days
+                  {getFreshnessDays(row['MfgDate'])} days
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                    {convertDayOfYearToDate(row['MFG Date'])}
+                    {row['MfgDate']}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
-                    {convertDayOfYearToDate(row['Exp. Date'])}
+                    {row['ExpDate']}
                   </TableCell>
                   <TableCell sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
                     <Chip
