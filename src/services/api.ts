@@ -2,7 +2,7 @@
 // src/services/api.ts
 import axios from 'axios';
 
-const API_BASE_URL = 'https://api.dashboardhub.in/'; // Your NestJS server URL
+const API_BASE_URL = 'https://report-api.dashboardhub.in/'; // Your NestJS server URL
 
 // Create axios instance
 const api = axios.create({
